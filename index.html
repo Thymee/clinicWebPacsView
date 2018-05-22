@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>蓝网科技-智能影像</title>
+		<!-- CSS -->
+		<!-- Bootstrap CSS -->
+		<link href="lib/bootstrap.min.css" rel="stylesheet">
+
+		<!-- UI CSS -->
+		<link href="lib/jquery-ui.min.css" rel="stylesheet">
+
+		<!-- dialogPolyfill -->
+		<link href="lib/dialogPolyfill.css" rel="stylesheet">
+
+		<!-- Cornerstone Base CSS -->
+		<link href="lib/cornerstone/cornerstone.css" rel="stylesheet">
+
+		<!--流媒体-->
+		<link href="lib/videojs/video-js.min.css" rel="stylesheet">
+		
+		<!-- Loadstudy CSS -->
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="shortcut icon" href="favicon.ico"/>
+	</head>
+
+	<body>
+		<!--视频弹出层开始-->
+		<!--<button class="modelButton" type="button" data-toggle="modal" data-target="#myModal" style="display: none;"></button>-->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">VIDEO</h4>
+					</div>
+					<div class="modal-body">
+						<video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls="controls" width="800px" height="600px">
+							<source type="application/x-mpegURL">
+						</video>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--视频弹出层结束-->
+
+		<div id="wrap">
+			<div class="toolbar toolbar-top">
+				<div class="lanwon-viewer"><img src="images/viewerlogo.png"/></div>
+				<div class="toolbar-wrapper">
+					<ul class="toolbar-functions" id="toolbar-functions">
+						<li class="toolbar-item">
+							<div class="toolbar-button fun-btn">
+								<i class="tool-zoom"></i>
+								<span data-toggle="tooltip" title="<h3 style='width:80px;'>按住左键缩放</h3>" data-placement="bottom">图像缩放</span>
+							</div>
+						</li>
+						<li class="toolbar-item">
+							<div class="toolbar-button magnifierList">
+								<i class="tool-magnifier"></i>
+								<span id="magnifier">放大镜</span>
+							</div>
+							<!--下拉三角箭头-->
+							<p class="toolbar-button-arrow">
+								<i class="triangle"></i>
+							</p>
+							<!--下拉的内容-->
+							<ul class="sub-toolbar" id="sub-magnifier">
+								<li>
+									<i class="tool-magnifier" data-magnifier="1.5"></i>
+									<span>1.5X放大</span>
+								</li>
+								<li>
+									<i class="tool-magnifier" data-magnifier="3"></i>
+									<span>3X放大</span>
+								</li>
+							</ul>
+
+						</li>
+						<li class="toolbar-item">
+							<div class="toolbar-button fun-btn">
+								<i class="tool-move"></i>
+								<span>移动</span>
+							</div>
+						</li>
+						<li class="toolbar-item">
+							<div class="toolbar-button fun-btn">
+								<i class="tool-rotate"></i>
+								<span>旋转</span>
+							</div>
+						</li>
+						<li class="toolbar-item">
+							<div class="toolbar-button markList">
+								<i class="tool-mark"></i>
+								<span id="mark">标注测量</span>
+							</div>
+							<!--下拉三角箭头-->
+							<p class="toolbar-button-arrow">
+								<i class="triangle"></i>
+							</p>
+							<!--下拉的内容-->
+							<ul class="sub-toolbar">
+								<li>
+									<i class="tool-arrows"></i>
+									<span>箭头标注</span>
+								</li>
+								<li>
+									<i class="tool-line"></i>
+									<span>直线测量</span>
+								</li>
+								<li>
+									<i class="tool-angle"></i>
+									<span>夹角测量</span>
+								</li>
+								<li>
+									<i class="tool-ellipse"></i>
+									<span>椭圆测量</span>
+								</li>
+								<li>
+									<i class="tool-rectangle"></i>
+									<span>矩形测量</span>
+								</li>
+								<li>
+									<i class="tool-dot"></i>
+									<span>点测量</span>
+								</li>
+								<!--<li>
+									<i class="tool-blood"></i>
+									<span>血管狭窄比测量</span>
+								</li>
+								<li>
+									<i class="tool-thorax"></i>
+									<span>心胸比测量</span>
+								</li>-->
+								<div>
+									<i class="tool-clear" style="background:url(images/icon-clear.png) no-repeat center;"></i>
+									<span>清除测量数据</span>
+								</div>
+							</ul>
+						</li>
+						<li class="toolbar-item">
+							<div class="toolbar-button">
+								<i class="tool-layout-2x2" id="toolViewport"></i>
+								<span>序列</span>
+							</div>
+							<p class="toolbar-button-arrow">
+								<i class="triangle"></i>
+							</p>
+							<ul class="sub-toolbar changeViewport">
+								<li class="layout-btn">
+									<i class="tool-layout-1x1"></i>
+									<span>1 x 1 序列</span>
+								</li>
+								<li class="layout-btn">
+									<i class="tool-layout-1x2"></i>
+									<span>1 x 2 序列</span>
+								</li>
+								<li class="layout-btn">
+									<i class="tool-layout-2x2"></i>
+									<span>2 x 2 序列</span>
+								</li>
+							</ul>
+						</li>
+						<li class="toolbar-item">
+							<div class="toolbar-button">
+								<i class="tool-layout-1x1" id="toolLayout"></i>
+								<span>布局</span>
+							</div>
+							<p class="toolbar-button-arrow">
+								<i class="triangle"></i>
+							</p>
+							<ul class="sub-toolbar changeLayout">
+								<li class="layout-btn">
+									<i class="tool-layout-1x1"></i>
+									<span>1 x 1 布局</span>
+								</li>
+								<li class="layout-btn">
+									<i class="tool-layout-1x2"></i>
+									<span>1 x 2 布局</span>
+								</li>
+								<li class="layout-btn">
+									<i class="tool-layout-2x2"></i>
+									<span>2 x 2 布局</span>
+								</li>
+							</ul>
+						</li>
+						<li class="toolbar-item">
+							<div class="toolbar-button fun-btn">
+								<i class="tool-adjustment"></i>
+								<span>调窗</span>
+							</div>
+						</li>
+
+						<li class="toolbar-item">
+							<div class="toolbar-button">
+								<i class="tool-vertical"></i>
+								<span id="vertical">镜像操作</span>
+							</div>
+							<p class="toolbar-button-arrow">
+								<i class="triangle"></i>
+							</p>
+							<ul class="sub-toolbar">
+								<li id="tool-vertical">
+									<i class="tool-vertical"></i>
+									<span>垂直翻转</span>
+								</li>
+								<li id="tool-flip">
+									<i class="tool-flip"></i>
+									<span>水平翻转</span>
+								</li>
+							</ul>
+						</li>
+
+						<li class="toolbar-item">
+							<div class="toolbar-button">
+								<i class="tool-play icon-stop"></i>
+								<span class="playSpeed">播放</span>
+							</div>
+							<p class="toolbar-button-arrow playArrow">
+								<i class="triangle"></i>
+							</p>
+							<ul class="sub-toolbar-play">
+								<li>
+									<i class="tool-play-default" data-play="10"></i>
+									<span>默认[10]</span>
+								</li>
+								<li>
+									<i class="tool-play-full" data-play="60"></i>
+									<span>全速[60]</span>
+								</li>
+								<li>
+									<i class="tool-adjustment-constant" data-play="30"></i>
+									<span>匀速[30]</span>
+								</li>
+								<li>
+									<i class="tool-adjustment-low" data-play="15"></i>
+									<span>慢速[15]</span>
+								</li>
+								<li>
+									<i class="tool-adjustment-slow" data-play="5"></i>
+									<span>缓速[5]</span>
+								</li>
+								<li>
+									<i class="tool-adjustment-slide" data-play="1"></i>
+									<span>幻灯[1]</span>
+								</li>
+							</ul> 
+						</li>
+						
+						<!--同步操作-->
+						<li class="toolbar-item">
+							<div class="toolbar-button ">
+								<i class="tool-list-de"></i>
+								<span id="tool-sync">同步操作</span>
+							</div>
+							<p class="toolbar-button-arrow">
+								<i class="triangle"></i>
+							</p>
+							<ul class="sub-toolbar sub-toolbar-sync">
+								<li>
+									<i class="tool-seriesSync"></i>
+									<span>序列同步</span>
+								</li>
+								<li>
+									<i class="tool-allSync"></i>
+									<span>全部同步</span>
+								</li>
+								<div class="cancleSync">
+									<i class="tool-list-de"></i>
+									<span>取消同步</span>
+								</div>
+
+							</ul>
+						</li>
+						<!--保存影像-->
+						<li class="toolbar-item downloadOfLi">
+							<div class="toolbar-button">
+								<i class="tool-save"></i>
+								<span data-toggle="tooltip" data-placement="bottom">保存影像</span>
+							</div>
+							<p class="toolbar-button-arrow">
+								<i class="triangle"></i>
+							</p>
+							<ul class="sub-toolbar-download">
+								<li>
+									<i class="tool-picD"></i>
+									<span>.DCM</span>
+								</li>
+								<li>
+									<i class="tool-picJ"></i>
+									<span>.JPG</span>
+								</li>
+								<li>
+									<i class="tool-picP"></i>
+									<span>.PNG</span>
+								</li>
+								<li>
+									<i class="tool-picB"></i>
+									<span>.BMP</span>
+								</li>
+							</ul>
+						</li>
+
+						<!--序列全屏-->
+						<li class="toolbar-item">
+							<div class="toolbar-button fun-btn">
+								<i class="tool-screen-full full-screen"></i>
+								<span>序列放大</span>
+							</div>
+						</li>
+
+						<!--大屏幕显示-->
+						<div class="large-screen">
+							<li class="toolbar-item">
+								<div class="toolbar-button fun-btn">
+									<i class="tool-inverse"></i>
+									<span>黑白反色</span>
+								</div>
+							</li>
+
+							<li class="toolbar-item">
+								<div class="toolbar-button fun-btn">
+									<i class="tool-restore"></i>
+									<span>一键还原</span>
+								</div>
+							</li>
+
+							<li class="toolbar-item ctMrBtn" title="自动平面定位">
+								<div class="toolbar-button">
+									<i class="tool-location"></i>
+									<span>自动平面定位</span>
+								</div>
+							</li>
+							<li class="toolbar-item ctMrBtn" title="定位线显示">
+								<div class="toolbar-button">
+									<i class="tool-position"></i>
+									<span>定位线显示</span>
+								</div>
+							</li>
+
+						</div>
+
+						<!--大屏幕显示结束-->
+						
+						
+						<!--平板的适配显示-->
+						<div class="ipad-screen">
+							<li class="toolbar-item" id="ipadtool-more">
+								<div class="toolbar-button">
+									<i class="tool-more"></i>
+									<span>更多</span>
+								</div>
+								<p class="toolbar-button-arrow">
+									<i class="triangle"></i>
+								</p>
+								<ul class="sub-toolbar" style="left: -88px;">
+									
+									<li>
+										<i class="tool-inverse"></i>
+										<span>黑白反色</span>
+									</li>
+									<li class="ctMrBtn"> 
+										<i class="tool-position"></i>
+										<span>定位线显示</span>
+									</li>
+									<li class="ctMrBtn">
+										<i class="tool-location"></i>
+										<span>自动平面定位</span>
+									</li>
+									<li>
+										<i class="tool-restore"></i>
+										<span>一键还原</span>
+									</li>
+								</ul>
+							</li>
+
+						</div>
+						<!--平板的适配显示结束-->
+					</ul>
+				</div>
+			</div>
+
+			<div class='main'>
+				<!-- Tab content -->
+				<div id="tabContent" class="tab-content">
+					<div id="studyViewerTemplate" class="tab-pane active" style="height:100%">
+
+						<div class="studyContainer" style="height:100%;overflow:hidden;">
+							<div class="studyRow row" style="height:100%">
+
+								<!-- Thumbnails和视频 -->
+								<div class="thumbnailSelector">
+									<h1 class="showVideoList">视频</h1>
+									<div class="videoContainer">
+										<script type="text/html" id="videoList">
+											{{each}}
+											<a class="list-group-item showVideo" data-toggle="modal" data-target="#myModal" data-link="{{$value}}">
+												<!--<a class="list-group-item showVideo" data-duration="{{$value.duration}}" data-toggle="modal" data-target="#myModal" data-link="{{$value.url}}">-->
+												<div class="csthumbnail videoPoster"></div>
+												<div class="text-center small">视频{{$index+1}}</div>
+												<div class="downLoadSeries">
+													<div class="downLoadSeries-down text-center" data-link="{{$value}}">下载检查视频</div>
+												</div>
+											</a>
+											{{/each}}
+										</script>
+									</div>
+									<h1>序列缩略图</h1>
+									<ul class="thumbnails list-group tree">
+										<a class="list-group-item active ui-draggable ui-draggable-handle" oncontextmenu="return false" unselectable="on" onselectstart="return false;" onmousedown="return false;">
+											<div class="csthumbnail" oncontextmenu="return false" unselectable="on" onselectstart="return false;" onmousedown="return false;"><img src="images/loadingtime2.gif"></div>
+											<div class="text-center small">图片加载中.....</div>
+										</a>
+									</ul>
+								</div>
+
+								<!-- Viewer -->
+								<div class="viewer" style="width: 1474px; height: 100%;">
+									<!-- Viewer -->
+									<div class="imageViewer" style="width:100%;height:100%;position:relative;color: white;float:left;background-color:black;" oncontextmenu="return false">
+										<div class="viewportWrapper" style="width:100%;height:100%;position:relative;color: white;float:left;background-color:black;" oncontextmenu="return false">
+											<!-- Viewport -->
+											<div class="viewport">
+												<!--<img src="images/loadingtime2.gif">-->
+											</div>
+									
+											<!-- Overlays -->
+											<div class="overlay" style="top:0px; left:0px">
+												<div>Patient Name</div>
+												<div>Patient Id</div>
+											</div>
+									
+											<div class="overlay" style="top:0px; right:0px">
+												<div>Study Description</div>
+												<div>Study Date</div>
+											</div>
+									
+											<div class="overlay" style="bottom:0px; left:0px">
+												<div class="fps">FPS:</div>
+												<div class="renderTime">Render Time:</div>
+												<div class="currentImageAndTotalImages">Image #:</div>
+											</div>
+									
+											<div class="overlay" style="bottom:0px; right:0px">
+												<div>Zoom:</div>
+												<div>WW/WC:</div>
+											</div>
+									
+											
+									
+										</div>
+									
+									</div>
+									<!--annotationDialog -->
+											<dialog class="annotationDialog">
+												<h5>编辑标注</h5>
+												<div class="annotationTextInputOptions">
+													<label for="annotationTextInput">输入文字</label>
+													<input name="annotationTextInput" class="annotationTextInput" type="text" />
+												</div>
+												<div style="text-align: center;">
+													<a class="annotationDialogConfirm btn btn-sm btn-primary">确认</a>
+												</div>
+									
+											</dialog>
+											<dialog class="relabelDialog" oncontextmenu="return false">
+												<h5>编辑标注</h5>
+												<div class="annotationTextInputOptions">
+													<label for="annotationTextInput">修改文字</label>
+													<input name="annotationTextInput" class="annotationTextInput" type="text" />
+												</div>
+												<div style="text-align: center;">
+													<a class="relabelRemove btn btn-sm btn-secondary">清除</a>
+													<a class="relabelConfirm btn btn-sm btn-primary">确定</a>
+												</div>
+											</dialog>
+								</div>
+							</div>
+							<div style="clear:both;"></div>
+						</div>
+					</div>
+				</div>
+				<!-- Study viewer tab content template -->
+			</div>
+
+			<!--移动端工具栏-->
+			
+
+		</div>
+
+		<!-- Include JQuery library -->
+		<script src="lib/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<!-- Include JQuery UI for drag/drop -->
+		<script src="lib/jquery-ui.min.js"></script>
+		<!-- Include Bootstrap js -->
+		<script src="lib/bootstrap.min.js"></script>
+		<!-- include the cornerstone library -->
+		<script src="lib/cornerstone/dist/cornerstone.js"></script>
+		<!-- include the cornerstone library -->
+		<script src="lib/cornerstoneMath/dist/cornerstoneMath.js"></script>
+		<!-- include the cornerstone tools library -->
+		<script src="lib/cornerstoneTools/dist/cornerstoneTools.js"></script>
+		<!-- include the dicomParser library -->
+		<script src="lib/dicomParser/dist/dicomParser.js"></script>
+		
+		<script src="lib/codecs/openJPEG-FixedMemory.js"></script>
+
+		<!-- PDF.js based jpeg 2000 codec -->
+		<!-- NOTE: do not load the OpenJPEG codec if you use this one -->
+		<script src="lib/codecs/jpx.min.js"></script>
+		<!-- JPEG-LS codec -->
+
+		<script src="lib/codecs/charLS-FixedMemory-browser.js"></script>
+		<!-- JPEG Lossless codec -->
+		<script src="lib/codecs/jpegLossless.js"></script>
+		<!-- JPEG Baseline codec -->
+		<script src="lib/codecs/jpeg.js"></script>
+		<!-- Deflate transfer syntax codec -->
+		<script src="lib/codecs/pako.min.js"></script>
+
+		<!-- include the cornerstoneWebImageLoader library -->
+		<!--<script src="lib/cornerstoneWebImageLoader.js"></script>-->
+
+		<!-- include the cornerstoneWADOImageLoader library -->
+		<script src="lib/cornerstoneWADOImageLoader/dist/cornerstoneWADOImageLoader.js"></script>
+
+		<!-- include FileSaver.js -->
+		<script src="lib/FileSaver.js"></script>
+
+		<!-- include cornerstone js  -->
+		<script src="lib/dialogPolyfill.js"></script>
+
+		<script src="lib/template-web.js"></script>
+
+		<!--流媒体-->
+		<script src="lib/videojs/video.min.js"></script>
+		<script src="lib/videojs/videojs-contrib-hls.min.js"></script>
+
+		<script src="js/viewportTools.js" charset="utf-8" type="text/javascript"></script>
+		<!-- <script src="js/loadTemplate.js"></script> -->
+		
+		<script src="js/imageViewer.js"></script>
+
+		<script src="js/displayThumbnail.js"></script>
+		
+		<script src="js/setupViewport.js"></script>
+
+		<script src="js/disableAllTools.js"></script>
+		
+		<script src="js/setupButtons.js"></script>
+
+		<script src="js/baseConfig.js"></script> //配置文件
+
+		<script src="js/loadStudy.js"></script> //main js
+		<script src="js/layoutScroll.js"></script>  //布局函数
+	
+
+	<script charset="utf-8" type="text/javascript">
+		var cacheTaskLoaded = false;
+
+		var config = {
+			maxWebWorkers: ((navigator.hardwareConcurrency > 2) ? Math.round(navigator.hardwareConcurrency / 2) : 1) || 1,
+			startWebWorkersOnDemand: true,
+			webWorkerPath: 'lib/cornerstoneWADOImageLoader/dist/cornerstoneWADOImageLoaderWebWorker.js',
+			webWorkerTaskPaths: [
+				//          '../examples/customWebWorkerTask/convolveTask.js'
+			],
+			taskConfiguration: {
+				'decodeTask': {
+					loadCodecsOnStartup: true,
+					initializeCodecsOnStartup: false,
+					codecsPath: 'cornerstoneWADOImageLoaderCodecs.js',
+					usePDFJS: false
+				}
+			}
+		};
+		cornerstoneWADOImageLoader.webWorkerManager.initialize(config);
+
+//		if("webkitPersistentStorage" in navigator) {
+//			navigator.webkitPersistentStorage.queryUsageAndQuota(function(usedBytes, grantedBytes) {
+//				console.log("当前已使用永久空间 " + usedBytes / 1024 / 1024 + " MB");
+//				console.log("当前已授权永久空间 " + grantedBytes / 1024 / 1024 + " MB");
+//			});
+//		}
+//
+//		if("webkitTemporaryStorage" in navigator) {
+//			navigator.webkitTemporaryStorage.queryUsageAndQuota(function(usedBytes, grantedBytes) {
+//				console.log("当前已使用临时空间 " + Math.round(usedBytes / 1024 / 1024) + " MB");
+//				console.log("当前已授权临时空间 " + Math.round(grantedBytes / 1024 / 1024) + " MB");
+//			});
+//		}
+//
+//		if(!cacheTaskLoaded) {
+//			cacheTaskLoaded = true;
+//			cornerstoneWADOImageLoader.webWorkerManager.loadWebWorkerTask(
+//				"../../../js/cacheTask.js", {}
+//			);
+//		}
+	</script>
+	</body>
+</html>

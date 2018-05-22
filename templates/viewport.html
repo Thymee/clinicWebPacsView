@@ -1,0 +1,57 @@
+	<!-- Viewer -->
+	<div class="imageViewer" style="width:100%;height:100%;position:relative;color: white;float:left;background-color:black;" oncontextmenu="return false" >
+		<div class="viewportWrapper" style="width:100%;height:100%;position:relative;color: white;float:left;background-color:black;" oncontextmenu="return false"  >
+			<!-- Viewport -->
+			<div class="viewport">
+				<!--<img src="images/loadingtime2.gif">-->
+			</div>
+
+			<!-- Overlays -->
+			<div class="overlay" style="top:0px; left:0px">
+				<div>Patient Name</div>
+				<div>Patient Id</div>
+			</div>
+
+			<div class="overlay" style="top:0px; right:0px">
+				<div>Study Description</div>
+				<div>Study Date</div>
+			</div>
+
+			<div class="overlay" style="bottom:0px; left:0px">
+				<div class="fps">FPS:</div>
+				<div class="renderTime">Render Time:</div>
+				<div class="currentImageAndTotalImages">Image #:</div>
+			</div>
+
+			<div class="overlay" style="bottom:0px; right:0px">
+				<div>Zoom:</div>
+				<div>WW/WC:</div>
+			</div>
+
+			<!--annotationDialog -->
+			<dialog class="annotationDialog">
+				<h5>编辑标注</h5>
+				<div class="annotationTextInputOptions">
+					<label for="annotationTextInput">输入文字</label>
+					<input name="annotationTextInput" class="annotationTextInput" type="text" />
+				</div>
+				<div style="text-align: center;">
+					<a class="annotationDialogConfirm btn btn-sm btn-primary">确认</a>
+				</div>
+
+			</dialog>
+			<dialog class="relabelDialog" oncontextmenu="return false">
+				<h5>编辑标注</h5>
+				<div class="annotationTextInputOptions">
+					<label for="annotationTextInput">修改文字</label>
+					<input name="annotationTextInput" class="annotationTextInput" type="text" />
+				</div>
+				<div style="text-align: center;">
+					<a class="relabelRemove btn btn-sm btn-secondary">清除</a>
+					<a class="relabelConfirm btn btn-sm btn-primary">确定</a>
+				</div>
+			</dialog>
+
+		</div>
+
+	</div>

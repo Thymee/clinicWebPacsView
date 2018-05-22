@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/ClinicWebPlus/!svn/ver/927/trunk/front/clinicWebPacsView/lib/codecs
+END
+jpeg.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/ClinicWebPlus/!svn/ver/927/trunk/front/clinicWebPacsView/lib/codecs/jpeg.js
+END
+pako.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/ClinicWebPlus/!svn/ver/927/trunk/front/clinicWebPacsView/lib/codecs/pako.min.js
+END
+jpegLossless.js
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/ClinicWebPlus/!svn/ver/927/trunk/front/clinicWebPacsView/lib/codecs/jpegLossless.js
+END
+openJPEG-FixedMemory.js
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/ClinicWebPlus/!svn/ver/927/trunk/front/clinicWebPacsView/lib/codecs/openJPEG-FixedMemory.js
+END
+charLS-FixedMemory-browser.js
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/ClinicWebPlus/!svn/ver/927/trunk/front/clinicWebPacsView/lib/codecs/charLS-FixedMemory-browser.js
+END
+jpx.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/ClinicWebPlus/!svn/ver/927/trunk/front/clinicWebPacsView/lib/codecs/jpx.min.js
+END
