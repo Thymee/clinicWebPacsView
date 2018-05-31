@@ -201,11 +201,19 @@ ImageViewer = function(imageViewer) {
 	
 	            self.layouts.push(elem);
 	            
-	            self.layoutStacks[i] = viewerStack;
-	            self.layoutStacks[i].currentLayoutImageIdIndex = i;
-              self.layoutStacks[i].layoutIndex = i;
-              self.layoutStacks[i].layout = numOfLayouts;
-              self.layoutStacks[i].layoutRowsCols = layoutRowsCols;
+	            var layoutStack = {'currentImageIdIndex':viewerStack.currentImageIdIndex,
+								'currentLayoutImageIdIndex':i,
+								'frameRate':viewerStack.frameRate,
+								'imageIds':viewerStack.imageIds,
+								'layout':numOfLayouts,
+								'layoutIndex':i,
+								'layoutRowsCols':layoutRowsCols,
+								'seriesDescription':viewerStack.seriesDescription,
+								'seriesId':viewerStack.seriesId,
+								'seriesIndex':viewerStack.seriesIndex,
+								'stackId':viewerStack.stackId
+							}
+							self.layoutStacks.push(layoutStack)
 	           
 	            i++;
 	        };  
